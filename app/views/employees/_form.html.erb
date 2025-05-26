@@ -1,0 +1,116 @@
+<%= form_with(model: @employee, html: { class: "space-y-6 bg-white p-6 rounded shadow-md" }) do |form| %>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <%= form.label :full_name, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :full_name, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+    </div>
+    <div>
+      <%= form.label :birth_date, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.date_field :birth_date, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+    </div>
+    <div>
+      <%= form.label :gender, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.select :gender, [['Male', 'male'], ['Female', 'female'], ['Other', 'other']], {}, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+    </div>
+    <div>
+      <%= form.label :phone, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.telephone_field :phone, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+    </div>
+    <div>
+      <%= form.label :email, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.email_field :email, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+    </div>
+    <div>
+      <%= form.label :address, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :address, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+    </div>
+    <div>
+      <%= form.label :start_date, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.date_field :start_date, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+    </div>
+    <div>
+      <%= form.label :end_date, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.date_field :end_date, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Người thân</h3>
+    <div id="relatives-container" class="space-y-6">
+      <%= form.fields_for :relatives do |rel_form| %>
+        <div class="p-4 border border-gray-300 rounded-md space-y-2 bg-gray-50 relative-fields">
+          <div>
+            <%= rel_form.label :full_name, class: "block text-sm font-medium text-gray-700" %>
+            <%= rel_form.text_field :full_name, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+          </div>
+          <div>
+            <%= rel_form.label :birth_date, class: "block text-sm font-medium text-gray-700" %>
+            <%= rel_form.date_field :birth_date, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+          </div>
+          <div>
+            <%= rel_form.label :gender, class: "block text-sm font-medium text-gray-700" %>
+            <%= rel_form.select :gender, [['Male', 'male'], ['Female', 'female'], ['Other', 'other']], {}, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+          </div>
+          <div>
+            <%= rel_form.label :relationship, class: "block text-sm font-medium text-gray-700" %>
+            <%= rel_form.text_field :relationship, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm" %>
+          </div>
+          <% if rel_form.object.persisted? %>
+            <div class="flex items-center mt-2">
+              <%= rel_form.check_box :_destroy, class: "mr-2" %>
+              <%= rel_form.label :_destroy, "Xóa người thân này", class: "text-sm text-red-600" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div id="relative-template" class="hidden">
+      <div class="p-4 border border-dashed border-gray-400 rounded-md space-y-2 relative-fields bg-white">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Full name</label>
+          <input type="text" name="employee[relatives_attributes][NEW_INDEX][full_name]" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Birth date</label>
+          <input type="date" name="employee[relatives_attributes][NEW_INDEX][birth_date]" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Gender</label>
+          <select name="employee[relatives_attributes][NEW_INDEX][gender]" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Relationship</label>
+          <input type="text" name="employee[relatives_attributes][NEW_INDEX][relationship]" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" />
+        </div>
+      </div>
+    </div>
+
+    <button type="button" id="add-relative" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      Thêm người thân
+    </button>
+  </div>
+
+  <div class="pt-6">
+    <%= form.submit "Lưu", class: "px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700" %>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const addBtn = document.getElementById("add-relative");
+    const container = document.getElementById("relatives-container");
+    const template = document.getElementById("relative-template").innerHTML;
+    let index = <%= @employee.relatives.size %>;
+
+    addBtn.addEventListener("click", function () {
+      const newFields = template.replace(/NEW_INDEX/g, index);
+      container.insertAdjacentHTML("beforeend", newFields);
+      index += 1;
+    });
+  });
+</script>

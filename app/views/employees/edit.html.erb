@@ -1,0 +1,19 @@
+<% content_for :title, "Editing employee" %>
+
+<div class="bg-[#0000FF] text-[#fff] h-[100px] flex items-center justify-center">
+  <span class="text-[40px] font-[600]">Chỉnh sửa thông nhân viên</span>
+</div>
+
+
+<%= render "form", employee: @employee %>
+
+<br>
+
+
+<div class="flex items-center justify-center mb-[30px]">
+  <span class="px-6 py-2 bg-gray-600 text-white rounded-[10px] mr-[30px]">
+    <%= link_to "Quay lại danh sách", @employee %>
+  </span><span class="px-6 py-2 bg-gray-600 text-white rounded-[10px]">
+    <%= link_to "Hiển thị thông tin", @employee %> 
+  </span>
+</div>

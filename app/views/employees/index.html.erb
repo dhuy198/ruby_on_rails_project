@@ -1,0 +1,58 @@
+  <div class="bg-[#0000FF] text-[#fff] h-[100px] flex items-center justify-center">
+    <span class="text-[40px] font-[600]">Hệ thống quản lý nhân viên</span>
+  </div>
+
+
+<div class="pt-[20px] max-w-[1444px] mx-auto">
+  <span class="text-[30px] mb-[20px] block">Danh sách nhân viên</span>
+
+  <button class="block bg-[#66CC66] text-[#fff] rounded-[5px] mb-[20px]">
+    <span class="mx-[15px] my-[5px] block">
+      <%= link_to "New employee" , new_employee_path %>
+    </span>
+  </button>
+
+  <div class="overflow-x-auto rounded-lg shadow">
+    <table class="min-w-full border border-gray-300 text-center bg-white">
+      <thead class="bg-blue-100 text-gray-700">
+        <tr>
+          <th class="border px-4 py-2">STT</th>
+          <th class="border px-4 py-2">Họ và tên</th>
+          <th class="border px-4 py-2">Số điện thoại</th>
+          <th class="border px-4 py-2">Email</th>
+          <th class="border px-4 py-2">Ngày vào làm việc</th>
+          <th class="border px-4 py-2">Thao tác</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @employees.each_with_index do |employee, index| %>
+          <tr class="hover:bg-gray-100">
+            <td class="border px-4 py-2"><%= index + 1 %></td>
+            <td class="border px-4 py-2"><%= employee.full_name %></td>
+            <td class="border px-4 py-2"><%= employee.phone %></td>
+            <td class="border px-4 py-2"><%= employee.email %></td>
+            <td class="border px-4 py-2"><%= employee.start_date %></td>
+            <td class="border px-4 py-2 space-x-2">
+              <span class="inline-block bg-[#0099FF] rounded-[5px]">
+              <%= link_to "Chi tiết", employee_path(employee), class: "text-[#fff] mx-[15px] my-[5px] block " %>
+              </span>
+              <span class="inline-block bg-[#009933] rounded-[5px]">
+                <%= link_to "Sửa", edit_employee_path(employee), class: "text-[#fff] mx-[15px] my-[5px] block" %>
+              </span>
+              <span class="inline-block bg-[#FF6666] rounded-[5px]">
+                <%= button_to "Xóa", employee_path(employee),
+                      method: :delete,
+                      data: { confirm: "Bạn có chắc chắn muốn xóa nhân viên này?" },
+                      class: "text-[#fff] bg-transparent border-none p-0 inline cursor-pointer mx-[15px] my-[5px] block" %>
+              </span>                        
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+  
+
+</div>

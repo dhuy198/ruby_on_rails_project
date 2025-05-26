@@ -1,0 +1,12 @@
+<% content_for :title, "Editing relative" %>
+
+<h1>Editing relative</h1>
+
+<%= render "form", relative: @relative %>
+
+<br>
+
+<div>
+  <%= link_to "Show this relative", @relative %> |
+  <%= link_to "Back to relatives", relatives_path %>
+</div>

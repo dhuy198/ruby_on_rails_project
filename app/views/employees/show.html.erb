@@ -1,0 +1,75 @@
+<h1 class="text-3xl font-bold text-center my-6">Thông tin chi tiết nhân viên</h1>
+
+<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow">
+  <table class="min-w-full table-auto border border-gray-300">
+    <tbody>
+      <tr class="bg-gray-100">
+        <th class="text-left px-4 py-2 border">Họ và tên</th>
+        <td class="px-4 py-2 border"><%= @employee.full_name %></td>
+      </tr>
+      <tr>
+        <th class="text-left px-4 py-2 border">Ngày sinh</th>
+        <td class="px-4 py-2 border"><%= @employee.birth_date %></td>
+      </tr>
+      <tr class="bg-gray-100">
+        <th class="text-left px-4 py-2 border">Giới tính</th>
+        <td class="px-4 py-2 border"><%= @employee.gender %></td>
+      </tr>
+      <tr>
+        <th class="text-left px-4 py-2 border">Số điện thoại</th>
+        <td class="px-4 py-2 border"><%= @employee.phone %></td>
+      </tr>
+      <tr class="bg-gray-100">
+        <th class="text-left px-4 py-2 border">Email</th>
+        <td class="px-4 py-2 border"><%= @employee.email %></td>
+      </tr>
+      <tr>
+        <th class="text-left px-4 py-2 border">Địa chỉ</th>
+        <td class="px-4 py-2 border"><%= @employee.address %></td>
+      </tr>
+      <tr class="bg-gray-100">
+        <th class="text-left px-4 py-2 border">Ngày vào công ty</th>
+        <td class="px-4 py-2 border"><%= @employee.start_date %></td>
+      </tr>
+      <tr>
+        <th class="text-left px-4 py-2 border">Ngày nghỉ việc</th>
+        <td class="px-4 py-2 border"><%= @employee.end_date.presence || "Chưa nghỉ" %></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<h2 class="text-2xl font-semibold my-6 text-center">Danh sách người thân</h2>
+
+<% if @employee.relatives.any? %>
+  <div class="max-w-4xl mx-auto overflow-x-auto">
+    <table class="min-w-full table-auto border border-gray-300">
+      <thead class="bg-blue-100">
+        <tr>
+          <th class="text-left px-4 py-2 border">STT</th>
+          <th class="text-left px-4 py-2 border">Họ và tên</th>
+          <th class="text-left px-4 py-2 border">Mối quan hệ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @employee.relatives.each_with_index do |relative, index| %>
+          <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %>">
+            <td class="px-4 py-2 border"><%= index + 1 %></td>
+            <td class="px-4 py-2 border"><%= relative.full_name || "Không có thông tin" %></td>
+            <td class="px-4 py-2 border"><%= relative.relationship %></td>              
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="text-center text-gray-600 my-4">Chưa có người thân nào được thêm.</p>
+<% end %>
+
+  <div class="mt-12 flex justify-center space-x-4">
+    <%= link_to "Sửa thông tin", edit_employee_path(@employee), class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" %>
+    <%= link_to "Quay lại danh sách", employees_path, class: "px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" %>
+  </div>
+</div>

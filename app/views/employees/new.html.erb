@@ -1,0 +1,15 @@
+<% content_for :title, "New employee" %>
+
+  <div class="bg-[#0000FF] text-[#fff] h-[100px] flex items-center justify-center">
+    <span class="text-[40px] font-[600]">Thêm nhân viên mới</span>
+  </div>
+
+<%= render "form", employee: @employee %>
+
+<br>
+
+<div class="flex items-center justify-center mb-[30px]">
+  <span class="px-6 py-2 bg-gray-600 text-white rounded-[10px]">
+    <%= link_to "Back to employees", employees_path %>
+  </span>
+</div>
